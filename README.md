@@ -1,3 +1,9 @@
+Technology used:
+
+Front End: MaterializeCSS
+Back End: NodeJS (Express Framework & EJS)
+
+
 Before running this project make sure you have NodeJS installed in your local machine. 
 It can be downloaded from :
 https://nodejs.org/en/download/

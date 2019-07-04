@@ -1,0 +1,48 @@
+.brand-logo
+{
+    margin-left:5%;
+}
+.nav-wrapper{
+    background-color: #093149;
+}
+body{
+    background-color: #F4F6F7;
+}
+#filterForm
+{
+    width:100%;
+    margin-left:10%;
+}
+.minititle
+{
+    margin-top:5%;
+    margin-bottom: 5%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    color:#22465B;
+}
+.companies
+{
+    background: white;
+    border:1px black solid;
+    min-height:25%;
+}
+.card-image
+{
+    width:120px;
+    margin:auto;
+}
+#readTime
+{
+
+    color:grey;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+
+}
+#readTime i
+{
+font-size: 10px;
+
+}

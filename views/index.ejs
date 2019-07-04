@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Front End Challenge - Jayant</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="public/styles/simplePagination.css"/>
+
+
+    <!--jQuery-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="public/js/jquery.simplePagination.js"></script>
+
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!---Custom CSS-->
+    <link rel="stylesheet" href="public/styles/styles.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo"><img src="/public/images/logo.png" height="25"></a>
+            </div>
+        </nav>
+    </header>
+   
+    <main>
+        <h4 class="minititle center">You're in good company</h3>
+<div class="container">
+                <div class="section">
+                    <!--Start of the Filter-->
+                    <div class="row">
+                        <div id="filterForm" class="">
+                            <label class="left">FILTER BY </label>
+                        </br>
+
+
+                            <div class="col s4 m8 l2 center-align">
+                                <select class="browser-default" id="industry" name="industry" onchange=filter()>
+                                    <option value="" disabled selected>Industries</option>
+                                    <% for(var com in details){%>
+                                    <option value="<%=details[com].industry%>"> <%=details[com].industry%></option>
+                                    <%}%>
+                                </select>
+                            </div>
+                            <div class="col s4 m8 l2 center-align">
+                                <select class="browser-default" id="location" name="industry" onchange=filter()>
+                                    <option value="" disabled selected>Location</option>
+                                    <% for(var com in details){%>
+                                        <option value="<%=details[com].location%>"> <%=details[com].location%></option>
+                                        <%}%>
+                                </select>
+                            </div>
+                            <div class="col s4 m8  l2 center-align">
+                                <select class="browser-default" id="size" name="industry" onchange=filter()>
+                                    <option value="" disabled selected>Company Size</option>
+                                    <% for(var com in details){
+                                        %>
+                                        <option value="<%=details[com].company_size%>"> <%=details[com].company_size%></option>
+                                        <%}%>
+                                </select>
+                            </div>
+                            <div class="col s4 m8  l2 center-align">
+                                <select class="browser-default" id="use_case" name="industry" onchange=filter()>
+                                    <option value="" disabled selected>Use Case</option>
+                                    <% for(var com in details){%>
+                                        <option value="<%=details[com].use_case%>"> <%=details[com].use_case%></option>
+                                        <%}%>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Clear Button-->
+                <a href="#" onclick="clearAll()" class="right">Clear</a>
+                </br>
+                    <!--Filter Ends-->
+
+                    <div class="row mainCompany">
+                        <!--Here im looping through my details, I have used EJS templating so <% %> is used.-->
+                            <% if(details){
+                                for(var company in details){
+                                
+                                %>
+                            
+                                <div class="col s12 m12 l4 companyDiv" id="mainCompany">
+                                        <div class="card medium" style="height: 350px">
+                                                <div class="card-image center">
+                                                        <img  src="<%=details[company].image_url%>" style="margin-top: 8%;"
+                                                        class="responsive-img wp-post-image center-align" /> 
+                                                </div>
+                                                <div class="card-content center" id="details">
+                                                  <p>
+                                                      <%=details[company].excerpt%>
+                                                  </div>
+                                                <div class="card-action center ">
+                                                  <a href="#" style="color:#418BC6">Read more &#8594;</a><br>
+                                                  <span id="readTime">
+                                                        <i class="small material-icons">access_time</i>
+        
+                                                        <%=Math.round(details[company].word_count/200)%> MIN READ
+                                                    </span>
+                                                </div>
+                                            
+                                              </div>
+                                              
+                                
+                                </div>
+                                <%} }%>
+                       
+
+                    </div>
+                    <!--This is the pagination part used a plugin called simplepagination.-->
+                    <div id="pagination-container" class="right"></div>
+                </div>
+            </div>
+    </main>
+</body>
+<script>
+
+// This is the function which clears the filtration part and changes the select to default.
+
+function clearAll()
+{
+    $("#industry").val($("#industry option:first").val());
+    $("#location").val($("#industry option:first").val());
+    $("#size").val($("#industry option:first").val());
+    $("#use_case").val($("#industry option:first").val());
+
+        var htmlCom='';
+        //start of the ajax, it calls our api in the index.js file
+    $.ajax({
+  type: "GET",
+  url: "/api/getAll",
+  success: function(returnData){
+
+    for(var con in returnData)
+    {
+        //whole html template is sent
+        htmlCom+='<div class="col s12 m12 l4 companyDiv" id="mainCompany"> <div class="card medium" style="height: 350px"><div class="card-image center">  <img  src="'+returnData[con].image_url+'" style="margin-top: 8%;" class="responsive-img wp-post-image center-align" /> </div>  <div class="card-content center" id="details">    <p>  '+returnData[con].excerpt+' </p>  </div><div class="card-action center "><a href="#" style="color:#418BC6">Read more &#8594;</a><br>   <span id="readTime">      <i class="small material-icons">access_time</i>  '+Math.round(returnData[con].word_count/200)+' MIN READ    </span>      </div>   </div> </div>';            
+    }
+    $('.mainCompany').empty();
+    $('.mainCompany').append(htmlCom);
+    pagiNate();
+
+    }
+    
+});
+}
+
+// This is the filter function
+
+function filter()
+{
+  var  industry=document.getElementById("industry").value 
+  var  location=document.getElementById("location").value 
+  var  size=document.getElementById("size").value 
+  var  useCase=document.getElementById("use_case").value 
+  var htmlCom='';
+   $.ajax({
+  type: "GET",
+  url: "/api/getByFilter",
+data:{location:location,industry:industry,size:size,useCase:useCase},
+  success: function(returnData){
+
+    for(var con in returnData)
+    {
+        htmlCom+='<div class="col s12 m12 l4 companyDiv" id="mainCompany"> <div class="card medium" style="height: 350px"><div class="card-image center">  <img  src="'+returnData[con].image_url+'" style="margin-top: 8%;" class="responsive-img wp-post-image center-align" /> </div>  <div class="card-content center" id="details">    <p>  '+returnData[con].excerpt+' </p>  </div><div class="card-action center "><a href="#" style="color:#418BC6">Read more &#8594;</a><br>   <span id="readTime">      <i class="small material-icons">access_time</i>  '+Math.round(returnData[con].word_count/200)+' MIN READ    </span>      </div>   </div> </div>';            
+    }
+    $('.mainCompany').empty();
+    $('.mainCompany').append(htmlCom);
+    pagiNate();
+    }
+});
+
+}
+
+// This is the pagination 
+
+function pagiNate()
+{
+
+    var items = $(".mainCompany .companyDiv"); //parent div and the repeating div
+    var numItems = items.length; //number of items in the json
+    var perPage = 6; // number of items to show in the page
+
+    items.slice(perPage).hide();
+
+    $('#pagination-container').pagination({
+        items: numItems,
+        itemsOnPage: perPage,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber) {
+            var showFrom = perPage * (pageNumber - 1);
+            var showTo = showFrom + perPage;
+            items.hide().slice(showFrom, showTo).show();
+        }
+    });
+
+    //This is a filtration part for the dublicate details in the SELECT
+    var usedNames = {};
+$("select[name='industry'] > option").each(function () {
+    if(usedNames[this.text]) {
+        $(this).remove();
+    } else {
+        usedNames[this.text] = this.value;
+    }
+}); 
+}
+
+$(document).ready(this.pagiNate);
+</script>
+</html>
