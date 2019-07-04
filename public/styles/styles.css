@@ -6,7 +6,8 @@
     background-color: #093149;
 }
 body{
-    background-color: #F4F6F7;
+    background-image: url('../images/background.jpg');
+    background-size: cover
 }
 #filterForm
 {
