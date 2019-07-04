@@ -88,7 +88,7 @@ app.get('/api/getByFilter',(req,res)=>
 //for the size filtration
   if(size)
   {
-    if(size== details[det].size)
+    if(size== details[det].company_size)
     {
       resultFilter.push(details[det]);
     }
@@ -97,7 +97,7 @@ app.get('/api/getByFilter',(req,res)=>
     {
       for(var i=0;i<resultFilter.length;i++)
       {
-        if(resultFilter[i].size!=size)
+        if(resultFilter[i].company_size!=size)
         {
           resultFilter.splice(i,1);
         }
